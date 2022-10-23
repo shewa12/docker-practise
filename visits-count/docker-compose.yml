@@ -1,0 +1,17 @@
+# Docker composer is configuration file. We mention here which images we need, port mapping, etc.
+
+# docker composer version
+version: "3"
+
+# services that we need basically images that will run on separate container
+services:
+  # service name, we can set whatever we watn
+  redis-server:
+    image: redis
+  
+  node-app:
+    # use Docker file, just need to pass dir path as the value of build.
+    build: .
+    # port mapping as we do like: docker run -p 80:80 image-id
+    ports:
+      - "4000:4000"
