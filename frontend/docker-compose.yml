@@ -1,0 +1,16 @@
+version: '3'
+services:
+  frontend-app:
+    # build custom named docker file
+    build:
+      # pass dir path
+      context: .
+      # docker file name
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # mapp current dir with app dire
+      - .:/app
+      # don't map with app/node_modules
+      - /app/node_modules
