@@ -1,0 +1,16 @@
+# user privilege required
+sudo: required
+
+language: generic
+
+# services require
+services:
+  - docker
+
+# perform some task before install travis
+before_install:
+  - docker build t- shewa12/frontend -f Dockerfile.dev
+
+# run commands
+script:
+  - docker run -e CI=true shewa12/frontend npm run test -- --coverage
