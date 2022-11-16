@@ -1,0 +1,28 @@
+version: '3'
+services:
+  frontend-app:
+    # build custom named docker file
+    build:
+      # pass dir path
+      context: .
+      # docker file name
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # mapp current dir with app dire
+      - .:/app
+      # don't map with app/node_modules
+      - /app/node_modules
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+        - .:/app
+        - /app/node_modules
+    # override default command when this service start
+    # in our Dockerfile.dev we have default start command [npm, run, start]
+    # but for this service we want to run [npm, run, test] as a default command
+    command: ["npm", "run", "test"]  
