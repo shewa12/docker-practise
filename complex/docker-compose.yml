@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  complex-app-postgress:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 1234
+
+  complex-app-redis:
+    image: redis
+
+  complex-app-nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3050:80'
+    environment:
+      - WDS_SOCKET_PORT=3000
+
+  complex-app-server:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    environment:
+      - REDIS_HOST=complexAppReids
+      - REDIS_PORT:6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+
+  complex-app-client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+
+  complex-app-worker:
+    build: 
+      context: ./worker
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./worker:/app
