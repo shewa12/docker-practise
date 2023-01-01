@@ -1,17 +1,14 @@
 <?php
-enum UserType: string {
-	case Admin      = 'Tutor Admin';
-	case Instructor = 'Tutor Instructor';
-	case Student    = 'Tutor Student';
-}
 
+class Fruit
+{
+	public function __construct(public string $name) {}
 
-class User {
-
-	public static function set_user_role( UserType $role ) {
-		echo 'Role is set to ' . $role->name;
+	public function getName() {
+		return $this->name;
 	}
 }
 
-echo '<pre>';
-print_r( UserType::Instructor );
+
+$fruit = new Fruit('Banana');
+echo $fruit?->name;

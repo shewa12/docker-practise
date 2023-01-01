@@ -1,6 +1,15 @@
 version: '3'
 
 services:
+
+  complex-app-client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+      
   complex-app-postgress:
     image: postgres
     restart: always
@@ -18,7 +27,7 @@ services:
     ports:
       - '3050:80'
     environment:
-      - WDS_SOCKET_PORT=3000
+      - WDS_SOCKET_PORT=0
 
   complex-app-server:
     build: 
@@ -35,14 +44,6 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=postgres_password
       - PGPORT=5432
-
-  complex-app-client:
-    build: 
-      context: ./client
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - ./client:/app
 
   complex-app-worker:
     build: 
